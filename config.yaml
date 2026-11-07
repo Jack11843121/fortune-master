@@ -1,0 +1,66 @@
+# 算命大师 —— 主配置文件
+app:
+  name: 算命大师
+  # 对外访问地址（微信支付回调用 / 二维码地址会用到，部署时改为你的备案域名 + https）
+  base_url: http://localhost:8080
+  # 解锁全文价格（单位：分）
+  price_cents: 990
+
+server:
+  addr: ":8080"
+  # 可选：HTTPS 证书与私钥（填了就直接走 https）。
+  # 生产更推荐用 Nginx 反代做 https 终结，本程序仍跑 http。这里用于有证书时直连。
+  tls_cert: ""
+  tls_key: ""
+
+database:
+  # sqlite（本地零安装，默认） | mysql（生产）
+  driver: sqlite
+  # sqlite 文件路径
+  dsn: data/fortune.db
+  # mysql 示例（生产切换到 mysql 时取消下面注释并注释掉上面两行）：
+  # dsn: "user:password@tcp(127.0.0.1:3306)/fortune?charset=utf8mb4&parseTime=True&loc=Local"
+
+payment:
+  # mock（本地模拟支付，默认） | wechat（微信支付 v3） | alipay（支付宝）
+  provider: mock
+  mock:
+    enabled: true
+  wechat:
+    appid: ""                 # 公众号/小程序 appid
+    app_secret: ""            # AppSecret（微信登录/用户 openid 用）
+    mchid: ""                 # 微信支付商户号
+    mch_serial_no: ""         # 商户 API 证书序列号
+    mch_private_key_path: ""  # 商户 API 私钥（apiclient_key.pem）路径
+    platform_cert_path: ""    # 平台证书（wechatpay_xxx.pem，回调验签用；留空则仅解密不验签）
+    api_v3_key: ""            # API v3 密钥
+    notify_url: ""            # 支付结果通知地址，如 https://yourdomain.com/api/v1/pay/notify/wechat
+    pay_type: jsapi           # jsapi（微信内）/ native（扫码）/ h5（手机浏览器）
+  alipay:
+    app_id: ""                # 支付宝应用 APPID
+    private_key_path: ""      # 应用私钥（PKCS8）
+    alipay_public_key_path: ""# 支付宝公钥（回调验签）
+    notify_url: ""            # 异步回调地址
+    return_url: ""            # 支付完成同步跳转
+    sandbox: false            # 是否沙箱环境
+
+unlock:
+  # 免费预览比例（0~1），例如 0.35 表示免费展示约 35% 的内容
+  free_preview_ratio: 0.35
+
+membership:
+  monthly_price_cents: 1000   # 会员月费（分）= 10 元
+  monthly_quota: 1000         # 每月赠送 AI 调用次数
+  quota_price_cents: 1000     # 充值包价格（分）= 10 元
+  quota_add: 1000             # 充值包次数
+
+ai:
+  enabled: true               # 是否启用 AI 算命师（未配 API 时走本地兜底）
+  base_url: ""                # OpenAI 兼容接口，如 https://api.deepseek.com
+  api_key: ""                 # 大模型密钥（留空则用本地兜底回答）
+  model: deepseek-chat
+
+admin:
+  username: admin             # 管理后台账号（首次启动写入，之后以库中为准）
+  password: "admin123"        # 管理后台密码（首次启动种子，落库为 bcrypt 哈希；上线务必修改）
+  session_ttl_hours: 24       # 登录会话有效期（小时）

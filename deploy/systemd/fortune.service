@@ -1,0 +1,20 @@
+# 使用 systemd 托管服务（非 Docker 的 Linux 部署方式）
+# 放置到 /etc/systemd/system/fortune.service 后：
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable --now fortune
+[Unit]
+Description=Fortune (玄机命理) service
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/fortune
+ExecStart=/opt/fortune/fortune -config /opt/fortune/config.yaml
+Restart=always
+RestartSec=3
+# 建议以专用低权限用户运行
+User=fortune
+Group=fortune
+
+[Install]
+WantedBy=multi-user.target

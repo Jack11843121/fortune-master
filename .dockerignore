@@ -1,0 +1,16 @@
+node_modules
+web/node_modules
+web/dist
+fortune.exe
+fortune
+fortune-linux
+data
+*.db
+*.db-shm
+*.db-wal
+.git
+.idea
+.vscode
+*.pem
+*.key
+apiclient_*

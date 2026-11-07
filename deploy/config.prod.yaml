@@ -1,0 +1,31 @@
+# 生产环境示例配置（Docker/云服务器部署）
+# 请复制为 config.yaml 并按实际情况修改。
+app:
+  name: 算命大师
+  # 【必改】改为你的已备案域名 + https（微信支付回调和 H5 支付依赖）
+  base_url: https://yourdomain.com
+  price_cents: 990
+
+server:
+  addr: ":8080"
+
+database:
+  driver: mysql
+  # 【必改】数据库账号密码；Docker 部署时 host 用 db（见 docker-compose.yml）
+  dsn: "fortune:change-me@tcp(db:3306)/fortune?charset=utf8mb4&parseTime=True&loc=Local"
+
+payment:
+  # 先 mock 验证部署；拿到微信支付资质后改为 wechat
+  provider: mock
+  wechat:
+    appid: ""                 # 公众号/小程序 appid
+    mchid: ""                 # 商户号
+    mch_serial_no: ""         # 商户 API 证书序列号
+    mch_private_key_path: ""  # /app/keys/apiclient_key.pem
+    platform_cert_path: ""    # /app/keys/wechatpay_xx.pem（回调验签）
+    api_v3_key: ""            # API v3 密钥
+    notify_url: "https://yourdomain.com/api/v1/pay/notify/wechat"
+    pay_type: jsapi           # jsapi / native / h5
+
+unlock:
+  free_preview_ratio: 0.35

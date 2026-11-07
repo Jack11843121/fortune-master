@@ -1,0 +1,38 @@
+# 编译产物
+/dist/
+/fortune
+/fortune-linux
+*.exe
+
+# 依赖与构建
+node_modules/
+/web/dist/*
+!/web/dist/.gitkeep
+
+# 运行时数据（SQLite 数据库，含用户数据，勿提交）
+/data/
+*.db
+*.db-shm
+*.db-wal
+
+# 生产/私有配置（含真实密钥与地址，勿提交；参考 deploy/config.prod.yaml 示例）
+deploy/config.*.yaml
+!deploy/config.prod.yaml
+
+# 密钥与证书（切勿提交）
+*.pem
+*.key
+apiclient_*
+secret*
+.env
+.env.*
+!.env.example
+
+# 编辑器
+.idea/
+.vscode/
+.DS_Store
+
+# 本机其它项目目录（非本仓库内容）
+/深度学习/
+/软件开发/
